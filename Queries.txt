@@ -1,0 +1,34 @@
+create TABLE IF NOT EXISTS Booking(
+    BookingID VARCHAR(200) NOT NUll  PRIMARY KEY
+   ,Email VARCHAR(100)
+   ,Name VARCHAR(25) NOT NULL
+   ,UnitNo INT NULL
+   ,StreetNo VARCHAR(25) NOT NULL
+   ,StreetName VARCHAR(25) NOT NULL
+   ,suburb VARCHAR(25) NOT NULL
+   ,dsuburb VARCHAR(25) NOT NULL
+   ,Phone VARCHAR(25) NOT NULL
+   ,Pdate DATE NOT NULL
+   ,Ddate TIME NOT NULL
+   ,Status VARCHAR(25)
+   ,FOREIGN KEY (Email) REFERENCES UserDetails(Email)
+	)
+    
+   
+   
+create TABLE IF NOT EXISTS UserDetails(
+    
+   Email VARCHAR(100) NOT NULL Primary Key
+   ,Name VARCHAR(25) NOT NULL
+   ,Password VARCHAR(25) NOT NULL
+   ,Phone INT NOT NULL
+
+	)
+
+// query for getting the unassigned before two hours in admin page
+SELECT a.NAME as pName, b.BookingID, b.Name,b.Phone,b.StreetNo,b.StreetName,b.suburb,b.dsuburb,TIME_FORMAT(b.pdate, '%H:%i') as pdate,DATE_FORMAT(b.ddate, '%d %M ') as ddate 
+FROM Booking b, UserDetails a WHERE a.Email = b.Email and (CAST(b.ddate AS DATETIME) + CAST(b.pdate AS DATETIME) >= (NOW() - INTERVAL 2 HOUR) )and status='unassigned'
+
+//update the status based on reference num
+"UPDATE Booking SET status='$status' WHERE BookingID='$refnumvar'"
+   
